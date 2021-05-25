@@ -24,10 +24,10 @@
 					<form  > 
 						<div class="form-group col-md-8">
 							<label for="category">Category</label>
-								<select id="category" class="form-control" name="category" >
+								<select id="category" class="form-control" name="categorys" >
 									<option selected>Choose...</option>
-									{% for cat in object_list %}
-										<option  >{{cat.category}}</option>
+									{% for cat in Categories %}
+										<option  >{{cat.sweetName}}</option>
 									{% endfor %}
 								</select>
 						</div>
@@ -35,7 +35,7 @@
 							<label for="category">Brands</label>
 								<select id="category" class="form-control col-md-12" name="manufacturex" >
 									<option selected >Choose...</option>
-									{% for cat in object_list %}
+									{% for cat in brands %}
 										<option>{{ cat.manufacture }}</option>
 									{% endfor %}
 								</select>

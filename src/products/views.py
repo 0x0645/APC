@@ -45,19 +45,27 @@ class SearchResultsView(ListView):
     def get_queryset(self): # new
         query = self.request.GET.get('q','')
         q = self.request.GET.get('manufacturex','')
+        x = self.request.GET.get('categorys','')
+
 
         object_lists = Souq.objects.filter(
             Q(title__icontains=query)&
-            Q(manufacture__icontains=q)
+            Q(manufacture__icontains=q)|
+            Q(category__sweetName__icontains=x)
 
         )
-        return object_lists
+         
+ 
+       
+        return object_lists 
 
   
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["Categories"] = category.objects.all().order_by('sweetName').filter()
+        context["Categories"] = category.objects.all().order_by('sweetName')
+        context["brands"] = Souq.objects.values('manufacture').distinct().order_by('manufacture')
+
         
         return context
 
