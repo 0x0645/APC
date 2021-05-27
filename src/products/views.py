@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+from accounts.models import Profile
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import DetailView
@@ -9,8 +11,7 @@ from jumia.models import Jumia
 from noon.models import Noon
 from .filter import propertyFilter
 from django_filters.views import FilterView
-
-
+from notifications.signals import notify
 from django.core.paginator import Paginator
 
 
@@ -124,6 +125,10 @@ class itemDetails(DetailView):
 
 def interest(request):
     if (request.method == "POST") and ("subscribe" in request.POST):
+        profile = Profile.objects.get(user = request.user)
+        sender = User.objects.get(username=profile)
+        receiver = User.objects.get(username=profile)
+        notify.send(sender, recipient=receiver, verb='Message', description=f"interest in {request.POST.get('title')}")
         b = notifyme.objects.create(username=request.POST.get('username'),souqid=request.POST.get('id'),lastPrice=request.POST.get('lastprice'))
         b.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -31,9 +31,7 @@ def signup(request):
 
 def profile(request):
     profile = Profile.objects.get(user = request.user)
-    sender = User.objects.get(username=profile)
-    receiver = User.objects.get(username=profile)
-    notify.send(sender, recipient=receiver, verb='Message', description="gggg")
+   
     return render(request,'profile/profile.html',{'profile':profile})
 
 

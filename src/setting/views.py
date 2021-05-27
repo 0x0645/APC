@@ -12,11 +12,15 @@ from django.conf import settings
 
 
 
+
+
 def Home(request):
-    da=Souq.objects.all()
+    da=Souq.objects.filter(manufacture="apple")[:10]
+    
     Categories = category.objects.all().order_by('sweetName')
 
-    return render(request,'setting/home.html',{'Categories':Categories})
+    return render(request,'setting/home.html',{'Categories':Categories,"featured":da})
+
 
 
 
@@ -25,7 +29,6 @@ def Home(request):
 def contact(request):
     info =Info.objects.last()
     Categories = category.objects.all().order_by('sweetName')
-
     if request.method=='POST':
         Name=request.POST['name']
         Email=request.POST['email']

@@ -27,6 +27,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'styles/shop_responsive.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" type="text/css" href="{% static 'plugins/slick-1.8.0/slick.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
 
 
 
@@ -40,46 +43,44 @@
 	<!-- Header -->
 	
 	<header class="header">
-
-		<!-- Top Bar -->
-
 		<div class="top_bar">
 			<div class="container">
 				<div class="row">
 					<div class="col d-flex flex-row">
-						<div class="top_bar_contact_item"><div class="top_bar_icon"><img src="images/phone.png" alt=""></div>+38 068 005 3570</div>
-						<div class="top_bar_contact_item"><div class="top_bar_icon"><img src="images/mail.png" alt=""></div><a href="mailto:fastsales@gmail.com">fastsales@gmail.com</a></div>
 						<div class="top_bar_content ml-auto">
-							<div class="top_bar_menu">
-								<ul class="standard_dropdown top_bar_dropdown">
-									<li>
-										<a href="#">English<i class="fas fa-chevron-down"></i></a>
-										<ul>
-											<li><a href="#">Italian</a></li>
-											<li><a href="#">Spanish</a></li>
-											<li><a href="#">Japanese</a></li>
-										</ul>
-									</li>
-									<li>
-										<a href="#">$ US dollar<i class="fas fa-chevron-down"></i></a>
-										<ul>
-											<li><a href="#">EUR Euro</a></li>
-											<li><a href="#">GBP British Pound</a></li>
-											<li><a href="#">JPY Japanese Yen</a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
 							<div class="top_bar_user">
 								<div class="user_icon"><img src="images/user.svg" alt=""></div>
-								<div><a href="#">Register</a></div>
-								<div><a href="#">Sign in</a></div>
+								
+								{% if user.is_authenticated %}
+							
+									<div><a href="/accounts/profile">{{user.username}}</a></div>
+									<div><a href="/accounts/logout">Log Out</a></div>
+
+
+								{% else %}
+										<div><a href="/accounts/signup">Register</a></div>
+										<div><a href="/accounts/login">Sign in</a></div>
+
+								{% endif %}
+		
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>		
 		</div>
+
+
+
+		
+		<!-- Main Navigation -->
+	
+	
+	
+
+
+		<!-- Top Bar -->
+
 
 		<!-- Header Main -->
 
@@ -101,6 +102,19 @@
 								<div class="header_search_form_container">
 									<form action="{% url 'products:search_results' %}" class="header_search_form clearfix">
 										<input type="search" required="required" name="q" class="header_search_input" placeholder="Search for products...">
+										<div class="custom_dropdown" style="display:none">
+											<div class="custom_dropdown_list">
+												<span class="custom_dropdown_placeholder clc">All Categories</span>
+												<ul class="custom_list clc">
+													<li><a class="clc" href="#">All Categories</a></li>
+													<li><a class="clc" href="#">Computers</a></li>
+													<li><a class="clc" href="#">Laptops</a></li>
+													<li><a class="clc" href="#">Cameras</a></li>
+													<li><a class="clc" href="#">Hardware</a></li>
+													<li><a class="clc" href="#">Smartphones</a></li>
+												</ul>
+											</div>
+										</div>
 										<button type="submit" class="header_search_button trans_300" value="Submit"><img src="{% static 'images/search.png' %}" alt=""></button>
 									</form>
 								</div>
@@ -131,14 +145,14 @@
 				<div class="row">
 					<div class="col">
 						
-						<div class="main_nav_content d-flex flex-row">
+						<div >
 							<!-- Main Nav Menu -->
-							<div class="main_nav_menu ml-4">
-								<ul class="standard_dropdown main_nav_dropdown">
+							<div class="main_nav_menu ml-4" >
+								<ul class="standard_dropdown main_nav_dropdown" style="display: flex; flex-flow: row; justify-content: space-around;">
 									<li><a href="/">Home<i class="fas fa-chevron-down"></i></a></li>
 									<li><a href="{% url 'products:productname' %}">shop<i class="fas fa-chevron-down"></i></a></li>
 									
-									<li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
+									<!-- <li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li> -->
 									<li><a href="{% url 'setting:contact' %}">Contact<i class="fas fa-chevron-down"></i></a></li>
 								</ul>
 							</div>
@@ -192,7 +206,7 @@
 	<div class="container">
 		<div class="row">
 
-			<div class="col-lg-3 footer_col">
+			<div class="col-lg-2 footer_col">
 				<div class="footer_column footer_contact">
 					<div class="logo_container">
 						<div class="logo"><a href="#">{{footer.name}}</a></div>
@@ -213,10 +227,10 @@
 				</div>
 			</div>
 
-			<div class="col-lg-2 offset-lg-2">
+			<div class="col-lg-8 offset-lg-2">
 				<div class="footer_column">
 					<div class="footer_title">Find it Fast</div>
-					<ul class="footer_list">
+					<ul class="footer_list" style="columns: 2;">
 						{% for cat in Categories %}
 						<li><a href="/product/?category={{cat}}">{{cat}}</a></li>
 						{% endfor %}
@@ -225,20 +239,7 @@
 				</div>
 			</div>
 
-			<div class="col-lg-2">
-				<div class="footer_column">
-					<div class="footer_title">Customer Care</div>
-					<ul class="footer_list">
-						<li><a href="#">My Account</a></li>
-						<li><a href="#">Order Tracking</a></li>
-						<li><a href="#">Wish List</a></li>
-						<li><a href="#">Customer Services</a></li>
-						<li><a href="#">Returns / Exchange</a></li>
-						<li><a href="#">FAQs</a></li>
-						<li><a href="#">Product Support</a></li>
-					</ul>
-				</div>
-			</div>
+
 
 		</div>
 	</div>
@@ -250,7 +251,7 @@
 				
 				<div class="copyright_container d-flex flex-sm-row flex-column align-items-center justify-content-start">
 					<div class="copyright_content"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved </a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 </div>
 					<div class="logos ml-sm-auto">
@@ -297,6 +298,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="{% static 'js/shop_custom.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
 
+<script src="{% static 'plugins/slick-1.8.0/slick.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
 
 
 

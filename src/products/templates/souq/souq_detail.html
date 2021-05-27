@@ -2,7 +2,6 @@
 {% load static %}
 {% load bootstrap4 %}
 {% load mathfilters %}
-
 {% block body %}
 <div class="super_container">
 
@@ -29,9 +28,20 @@
 					<div class="product_description">
 						<div class="product_category">{{souq.category.sweetName}}</div>
 						<div class="product_name">{{souq.title}}</div>
-						<div class="rating_r rating_r_4 product_rating"><i></i><i></i><i></i><i></i><i></i></div>
+						<div class="rating-wrap">
+							<div class="center">
+								<span id='rating_Val'>{{souq.rate|floatformat:1}}</span>
+								<div class='rating{{forloop.counter0}}' style="display:inline;">
+									<div class="stars-outer">
+										<div class="stars-inner"></div>
+									  </div>
+								</div>
+							</div>
+							<h4 id="rating-value"></h4>
+						</div>
+
 						<div class="product_text">
-							<p>{{souq.description}}</p>
+							{{souq.description|safe}}
 						</div>
 						<div class="order_info d-flex flex-row">
 							<form method="POST" action="{% url 'product:interest' %}">
@@ -39,8 +49,11 @@
 								<div class="clearfix" style="z-index: 1000;">
 									<input type="hidden" value="{{souq.id}}" name="id">
 									<input type="hidden" value="{{souq.lastprice}}" name="lastprice">
+									<input type="hidden" value="{{souq.title}}" name="title">
+
 									<input type="hidden" value="{{ user.username }}" name="username">
 									<div class="product_price">{{souq.lastprice|div:100}}EGP</div>
+									
 									<div class="button_container">
 										{% if user.is_authenticated %}
 										<a class="nav-brand" href="#"></a>
@@ -273,4 +286,4 @@
 
 
 
-	{% endblock body %}
+{% endblock body %}

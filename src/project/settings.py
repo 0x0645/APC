@@ -84,13 +84,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 
+
+
+LOGOUT_REDIRECT_URL ="/"
+
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'db',
+        'NAME': 'dbA',
         'USER': 'postgres',
         'PASSWORD': '1999',
         'HOST': '127.0.0.1',
