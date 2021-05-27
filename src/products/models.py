@@ -18,3 +18,10 @@ class priceHistory(models.Model):
     souq=models.ForeignKey("souq.Souq",verbose_name="souq", related_name="souqHis",on_delete=models.CASCADE)
     timeDate=models.DateTimeField()
     lastprice = models.CharField(max_length=50, blank=True, null=True)
+
+
+
+class notifyme(models.Model):
+    username=models.CharField(max_length=200)
+    souqid=models.CharField(max_length=200)
+    lastPrice=models.CharField(max_length=200)

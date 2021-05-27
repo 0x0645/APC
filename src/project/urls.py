@@ -17,10 +17,19 @@ from django.contrib import admin
 from django.urls import path ,include 
 from django.conf import settings
 from django.conf.urls.static import static
+import notifications.urls
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('product/', include('products.urls', namespace='product')),
+    path('', include('setting.urls', namespace='home')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/' , include('accounts.urls', namespace='accounts')),
+    url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
+
+
+
     
 
 ]

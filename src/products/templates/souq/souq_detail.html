@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load bootstrap4 %}
+{% load mathfilters %}
+
 {% block body %}
 <div class="super_container">
 
@@ -32,12 +34,21 @@
 							<p>{{souq.description}}</p>
 						</div>
 						<div class="order_info d-flex flex-row">
-							<form action="#">
+							<form method="POST" action="{% url 'product:interest' %}">
+								{% csrf_token %}
 								<div class="clearfix" style="z-index: 1000;">
-
-									<div class="product_price">{{souq.lastprice}}</div>
+									<input type="hidden" value="{{souq.id}}" name="id">
+									<input type="hidden" value="{{souq.lastprice}}" name="lastprice">
+									<input type="hidden" value="{{ user.username }}" name="username">
+									<div class="product_price">{{souq.lastprice|div:100}}EGP</div>
 									<div class="button_container">
-										<div class="product_fav"><i class="fas fa-heart"></i></div>
+										{% if user.is_authenticated %}
+										<a class="nav-brand" href="#"></a>
+										<button name="subscribe" type="submit" type="button" class="btn btn-success">notify me</button>
+										{% else %}
+										<button disabled name="subscribe" type="submit" type="button" class="btn btn-success">notify me</button>
+										{% endif %}
+		
 									</div>
 							</form>
 

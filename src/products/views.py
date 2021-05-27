@@ -1,11 +1,15 @@
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import DetailView,ListView
+from django.views.generic import DetailView
 from django.contrib.postgres.search import TrigramDistance
 from django.db.models import Q
-from products.models import category
+from products.models import category, notifyme
 from souq.models import Souq
 from jumia.models import Jumia
 from noon.models import Noon
+from .filter import propertyFilter
+from django_filters.views import FilterView
+
 
 from django.core.paginator import Paginator
 
@@ -38,40 +42,24 @@ from django.core.paginator import Paginator
 # line_chart_json = LineChartJSONView.as_view()   
 
 
-class SearchResultsView(ListView):
+class SearchResultsView(FilterView):
     model = Souq
     paginate_by = 10
+    filterset_class = propertyFilter
     template_name= 'product/souq_list.html'
     def get_queryset(self): # new
         query = self.request.GET.get('q','')
-        q = self.request.GET.get('manufacturex','')
-        x = self.request.GET.get('categorys','')
-
-
         object_lists = Souq.objects.filter(
-            Q(title__icontains=query)&
-            Q(manufacture__icontains=q)|
-            Q(category__sweetName__icontains=x)
-
-        )
-         
- 
-       
-        return object_lists 
+            Q(title__icontains=query))
+        return object_lists  
 
   
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["Categories"] = category.objects.all().order_by('sweetName')
         context["brands"] = Souq.objects.values('manufacture').distinct().order_by('manufacture')
-
-        
+        context["Categories"]  = category.objects.all().order_by('sweetName')
         return context
-
-
-
-
 
 
 def is_valid_queryparam(param):
@@ -110,6 +98,7 @@ def Product(request):
         'count':count,
         'Recently_Viewed':Recently_Viewed,
         'object': obj,
+        'categorys':categorys
         
          })
 
@@ -133,6 +122,10 @@ class itemDetails(DetailView):
 
 
 
-
+def interest(request):
+    if (request.method == "POST") and ("subscribe" in request.POST):
+        b = notifyme.objects.create(username=request.POST.get('username'),souqid=request.POST.get('id'),lastPrice=request.POST.get('lastprice'))
+        b.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

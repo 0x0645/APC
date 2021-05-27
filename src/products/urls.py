@@ -10,5 +10,6 @@ urlpatterns = [
     # path('chart', line_chart, name='line_chart'),
     # path('chartJSON', line_chart_json, name='line_chart_json'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
+    path('interest/', views.interest, name='interest'),
 
 ]

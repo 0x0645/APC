@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'souq',
     'products',
     'jumia',
@@ -44,6 +45,10 @@ INSTALLED_APPS = [
     "bootstrap4",
     'django_filters',
     'chartjs',
+    'setting',
+    'mathfilters',
+    'accounts',
+    'notifications'
 
 ]
 
@@ -70,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'utils.get_context_processor.get_footer'
             ],
         },
     },

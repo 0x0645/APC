@@ -2,20 +2,34 @@
 {% load my_tags %}
 {% load static %}
 {% load bootstrap4 %}
+{% load mathfilters %}
+
 {% block body %}
 
 
 <div class="super_container">
 	
 	<!-- Home -->
+	{% if categorys  %}
 
-	<div class="home">
-		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
-		<div class="home_overlay"></div>
-		<div class="home_content d-flex flex-column align-items-center justify-content-center">
-			<h2 class="home_title">Smartphones & Tablets</h2>
+		<div class="home">
+			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
+			<div class="home_overlay"></div>
+			<div class="home_content d-flex flex-column align-items-center justify-content-center">
+				<h2 class="home_title">{{categorys}}</h2>
+			</div>
 		</div>
-	</div>
+	{% else %}
+		<div class="home">
+			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
+			<div class="home_overlay"></div>
+			<div class="home_content d-flex flex-column align-items-center justify-content-center">
+				<h2 class="home_title">Products</h2>
+			</div>
+		</div>
+	{% endif %}
+
+
 
 	<!-- Shop -->
 
@@ -79,7 +93,7 @@
 																			<div class="container">
 																				<div class="rating-wrap">
 																					<div class="center">
-																						<span id='rating_Val'  >{{product.rate|floatformat:1}}</span>
+																						<span id='rating_Val'>{{product.rate|floatformat:1}}</span>
 																						<div class='rating{{forloop.counter0}}' style="display:inline;">
 																							<div class="stars-outer">
 																								<div class="stars-inner"></div>
@@ -98,7 +112,7 @@
 																<div class="product-item__footer col-md-3 d-md-block">
 																	<div class="mb-3">
 																		<div class="prodcut-price mb-2">
-																			<div class="text-gray-100"><h5>{{product.lastprice}}EP</h5></div>
+																			<div class="text-gray-100"><h5>{{product.lastprice|div:100}}EGP</h5></div>
 																		</div>
 																	</div>
 																</div>

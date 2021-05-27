@@ -2,6 +2,8 @@
 {% load my_tags %}
 {% load static %}
 {% load bootstrap4 %}
+{% load mathfilters %}
+
 {% block body %}
 
 <div class="super_container">
@@ -21,33 +23,18 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">
-					<form  > 
-						<div class="form-group col-md-8">
-							<label for="category">Category</label>
-								<select id="category" class="form-control" name="categorys" >
-									<option selected>Choose...</option>
-									{% for cat in Categories %}
-										<option  >{{cat.sweetName}}</option>
-									{% endfor %}
-								</select>
-						</div>
-						<div class="form-group col-md-8">
-							<label for="category">Brands</label>
-								<select id="category" class="form-control col-md-12" name="manufacturex" >
-									<option selected >Choose...</option>
-									{% for cat in brands %}
-										<option>{{ cat.manufacture }}</option>
-									{% endfor %}
-								</select>
-						</div>
-						<button type="submit" class="btn btn-primary">Search</button>
+					<form > 
+						{% bootstrap_form filter.form %}
+						{% buttons %}
+							<button type="submit" class="btn btn-primary">Search</button>
+						{% endbuttons %}
 					</form>
 				</div>
 				<div class="col-lg-9">
 					<!-- Shop Content -->
 					<div class="shop_content">
 						<div class="shop_bar clearfix">
-							<div class="shop_product_count"><span>{{conut}}</span> products found</div>
+							<div class="shop_product_count"><span>{{counts}}</span> products found</div>
 							<div class="shop_sorting">
 								<span>Sort by:</span>
 								<ul>
@@ -87,16 +74,19 @@
 																			<div class="text-gray-100  mb-12">{{product.lastprice}}</div>
 																		</div>
 																		<div class="mb-3 d-none d-md-block">
-																			<a class="d-inline-flex align-items-center small font-size-14" href="#">
-																				<div class="text-warning mr-2">
-																					<small class="fas fa-star text-muted"></small>
-																					<small class="fas fa-star text-muted"></small>
-																					<small class="fas fa-star text-muted"></small>
-																					<small class="fas fa-star text-muted"></small>
-																					<small class="far fa-star text-muted"></small>
+																			<div class="container">
+																				<div class="rating-wrap">
+																					<div class="center">
+																						<span id='rating_Val'  >{{product.rate|floatformat:1}}</span>
+																						<div class='rating{{forloop.counter0}}' style="display:inline;">
+																							<div class="stars-outer">
+																								<div class="stars-inner"></div>
+																							  </div>
+																						</div>
+																					</div>
+																					<h4 id="rating-value"></h4>
 																				</div>
-																				<span class="text-secondary">{{product.rate}}</span>
-																			</a>
+																			</div>
 																		</div>
 																		<ul class="font-size-12 p-0 text-gray-110 mb-4 d-none d-md-block">
 																			<li class="line-clamp-5 mb-1 list-bullet">{{product.description|safe|truncatewords:15}}</li>
@@ -106,7 +96,7 @@
 																<div class="product-item__footer col-md-3 d-md-block">
 																	<div class="mb-3">
 																		<div class="prodcut-price mb-2">
-																			<div class="text-gray-100">{{product.lastprice}}EP</div>
+																			<div class="text-gray-100">{{product.lastprice|div:100}}EGP</div>
 																		</div>
 																	</div>
 																</div>
