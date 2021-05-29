@@ -1,6 +1,0 @@
-env
-.vscode
-Template-frontend
-celery-task
-Dockerfile
-runner.sh
