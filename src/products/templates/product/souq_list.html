@@ -9,13 +9,24 @@
 <div class="super_container">
 	<!-- Home -->
 
-	<div class="home">
-		<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
-		<div class="home_overlay"></div>
-		<div class="home_content d-flex flex-column align-items-center justify-content-center">
-			<h2 class="home_title">Smartphones & Tablets</h2>
+	{% if cate  %}
+
+		<div class="home">
+			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
+			<div class="home_overlay"></div>
+			<div class="home_content d-flex flex-column align-items-center justify-content-center">
+				<h2 class="home_title">{{cate}}</h2>
+			</div>
 		</div>
-	</div>
+	{% else %}
+		<div class="home">
+			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
+			<div class="home_overlay"></div>
+			<div class="home_content d-flex flex-column align-items-center justify-content-center">
+				<h2 class="home_title">Products</h2>
+			</div>
+		</div>
+	{% endif %}
 
 	<!-- Shop -->
 
@@ -23,10 +34,13 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">
-					<form > 
+					<form  > 
 						{% bootstrap_form filter.form %}
 						{% buttons %}
-							<button type="submit" class="btn btn-primary">Search</button>
+							<div style="display: flex; justify-content: center; align-items: center;">
+								<button type="submit" class="btn btn-primary" style="width: 50%;">Search</button>
+
+							</div>
 						{% endbuttons %}
 					</form>
 				</div>
@@ -34,20 +48,8 @@
 					<!-- Shop Content -->
 					<div class="shop_content">
 						<div class="shop_bar clearfix">
-							<div class="shop_product_count"><span>{{counts}}</span> products found</div>
-							<div class="shop_sorting">
-								<span>Sort by:</span>
-								<ul>
-									<li>
-										<span class="sorting_text">highest rated<i class="fas fa-chevron-down"></span></i>
-										<ul>
-											<li class="shop_sorting_button" data-isotope-option='{ "sortBy": "original-order" }'>highest rated</li>
-											<li class="shop_sorting_button" data-isotope-option='{ "sortBy": "name" }'>name</li>
-											<li class="shop_sorting_button"data-isotope-option='{ "sortBy": "price" }'>price</li>
-										</ul>
-									</li>
-								</ul>
-							</div>
+							<div class="shop_product_count"><span>{{count}}</span> products found</div>
+							
 						</div>
 
 						<div class="container">
@@ -69,7 +71,7 @@
 																<div class="product-item__body col-6 col-md-5">
 																	<div class="pr-lg-12">
 																		<div class="mb-2 "><a href="/product/{{product.id}}"  class="font-size-12 text-gray-5">{{product.category.sweetName}}</a></div>
-																		<h5 class="mb-2 product-item__title"><a href="/product/{{product.id}}"  class="text-blue font-weight-bold">{{product.title}}</a></h5>
+																		<h5 class="mb-2 product-item__title"><a href="/product/{{product.id}}"  class="text-blue font-weight-bold">{{product.title|truncatewords:15}}</a></h5>
 																		<div class="prodcut-price mb-2 d-md-none">
 																			<div class="text-gray-100  mb-12">{{product.lastprice}}</div>
 																		</div>
@@ -88,18 +90,19 @@
 																				</div>
 																			</div>
 																		</div>
-																		<ul class="font-size-12 p-0 text-gray-110 mb-4 d-none d-md-block">
-																			<!-- <li class="line-clamp-5 mb-1 list-bullet">{{product.description|safe|truncatewords:15}}</li> -->
-																		</ul>
-																	</div>
-																</div>
-																<div class="product-item__footer col-md-3 d-md-block">
-																	<div class="mb-3">
-																		<div class="prodcut-price mb-2">
-																			<div class="text-gray-100">{{product.lastprice|div:100}}EGP</div>
+																		<div class="product-item__footer col-md-3 d-md-block">
+																			<div class="mb-3">
+																				<div class="prodcut-price mb-2">
+																					<div class="text-gray-100" style="background-color: bisque; width: 80px;text-align: center; height: 15px; border: -3px; color: rgb(255, 0, 0);"><h5>{{product.lastprice|div:100}}EGP</h5></div>
+																				</div>
+																			</div>
 																		</div>
+																		<!-- <ul class="font-size-12 p-0 text-gray-110 mb-4 d-none d-md-block">
+																			<li class="line-clamp-5 mb-1 list-bullet">{{product.description|safe|truncatewords:15}}</li>
+																		</ul> -->
 																	</div>
 																</div>
+																
 															</div>
 														</div>
 													</li>

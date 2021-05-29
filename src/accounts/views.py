@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.models import User
 from notifications.signals import notify
+from products.models import category
+
 
 # Create your views here.
 
@@ -24,19 +26,29 @@ def signup(request):
     else:
         signup_form = UserCreateForm()
 
-    return render(request,'registration/signup.html',{'signup_form':signup_form})
+    return render(request,'registration/signup.html',{'signup_form':signup_form
+     
+    
+    })
 
 
 
 
 def profile(request):
     profile = Profile.objects.get(user = request.user)
+    Categories = category.objects.all().order_by('sweetName')
+
    
-    return render(request,'profile/profile.html',{'profile':profile})
+    return render(request,'profile/profile.html',{'profile':profile,
+    'Categories':Categories
+    
+    })
 
 
 
 def profile_edit(request):
+    Categories = category.objects.all().order_by('sweetName')
+
     profile = Profile.objects.get(user = request.user)
     if request.method == 'POST':
         user_form = UserForm(request.POST , instance=request.user)
@@ -56,5 +68,6 @@ def profile_edit(request):
 
     return render(request,'profile/profile_edit.html',{
         'user_form' : user_form , 
-        'profile_form' : profile_form
+        'profile_form' : profile_form,
+        'Categories':Categories
     })

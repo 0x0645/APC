@@ -24,4 +24,7 @@ class priceHistory(models.Model):
 class notifyme(models.Model):
     username=models.CharField(max_length=200)
     souqid=models.CharField(max_length=200)
+    expectedPrice=models.CharField(max_length=200,null=True)
+    timeDate=models.DateTimeField(null=True)
     lastPrice=models.CharField(max_length=200)
+    # done=models.BooleanField(null=True)

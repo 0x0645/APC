@@ -1,11 +1,12 @@
 from django.contrib.auth.models import User
+from django.http import request
 from accounts.models import Profile
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import DetailView
 from django.contrib.postgres.search import TrigramDistance
 from django.db.models import Q
-from products.models import category, notifyme
+from products.models import category, notifyme,priceHistory
 from souq.models import Souq
 from jumia.models import Jumia
 from noon.models import Noon
@@ -13,41 +14,77 @@ from .filter import propertyFilter
 from django_filters.views import FilterView
 from notifications.signals import notify
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 
-
+from django.views.generic import TemplateView
+from chartjs.views.lines import BaseLineChartView
 
 # UPDATE jumia SET manufacture = LOWER(manufacture);
 
-# from django.views.generic import TemplateView
-# from chartjs.views.lines import BaseLineChartView
+def population_chart(request,itemid):
+    print("(========================================================================================)")
+
+    print(itemid)
+    
+    print("(========================================================================================)")
+    # return("hello")
+    labels = []
+    data = []
+    soquD=Souq.objects.get(pk=itemid)
+    # queryset = priceHistory.objects.values('timeDate').order_by('timeDate')
+    queryset = priceHistory.objects.filter(souq=soquD).order_by('timeDate')
+
+    for entry in queryset:
+        labels.append(entry.timeDate)
+        data.append(entry.lastprice)
+        
+    
+    return JsonResponse(data={
+        "view": "<products.views.LineChartJSONView object at 0x000001DF0954F910>",
+        "labels":labels,
+        "datasets": [
+            {
+                "data":data,
+                "backgroundColor": "rgba(202, 201, 197, 0.5)",
+                "borderColor": "rgba(202, 201, 197, 1)",
+                "pointBackgroundColor": "rgba(202, 201, 197, 1)",
+                "pointBorderColor": "#fff",
+                "label": "souq",
+                "name": "souq"
+            }
+        ]
+    })
 
 
-# class LineChartJSONView(BaseLineChartView):
-#     def get_labels(self):
-#         """Return 7 labels for the x-axis."""
-#         return ["January", "February", "March", "April", "May", "June", "July"]
 
-#     def get_providers(self):
-#         """Return names of datasets."""
-#         return ["Central", "Eastside", "Westside"]
-
-#     def get_data(self):
-#         """Return 3 datasets to plot."""
-
-#         return [[75, 44, 92, 11, 44, 95, 35],
-#                 [41, 92, 18, 3, 73, 87, 92],
-#                 [87, 21, 94, 3, 90, 13, 65]]
+class LineChartJSONView(BaseLineChartView):
 
 
-# line_chart = TemplateView.as_view(template_name='souq/souq_detail.html')
-# line_chart_json = LineChartJSONView.as_view()   
+    def get_labels(self):
+        """Return 7 labels for the x-axis."""
+        return ["January", "February", "March", "April", "May", "June", "July"]
+
+    def get_providers(self):
+        """Return names of datasets."""
+        return ["souq"]
+
+    def get_data(self):
+        """Return 3 datasets to plot."""
+
+        return [[75, 44, 92, 11, 44, 95, 35]]
+
+
+line_chart = TemplateView.as_view(template_name='souq/souq_detail.html')
+line_chart_json = LineChartJSONView.as_view()     
 
 
 class SearchResultsView(FilterView):
     model = Souq
-    paginate_by = 10
+    paginate_by = 50
     filterset_class = propertyFilter
     template_name= 'product/souq_list.html'
+
+
     def get_queryset(self): # new
         query = self.request.GET.get('q','')
         object_lists = Souq.objects.filter(
@@ -58,8 +95,12 @@ class SearchResultsView(FilterView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["brands"] = Souq.objects.values('manufacture').distinct().order_by('manufacture')
+        # context["brands"] = Souq.objects.values('manufacture').distinct().order_by('manufacture')
         context["Categories"]  = category.objects.all().order_by('sweetName')
+        # context["cate"] = self.GET.get('category')
+        context["count"] = Souq.objects.all().count()
+
+
         return context
 
 
@@ -112,24 +153,32 @@ class itemDetails(DetailView):
         data = super().get_context_data(**kwargs)
         curTitle= self.object.title
         curManufacture=self.object.manufacture
+
         souq=Souq.objects.annotate(distance=TrigramDistance('title',curTitle),).filter(distance__lte=0.7,manufacture=curManufacture).order_by('distance')[:4]
         noon=Noon.objects.annotate(distance=TrigramDistance('title',curTitle),).filter(distance__lte=0.7,manufacture=curManufacture).order_by('distance')[:4]
+       
         jumia=Jumia.objects.annotate(distance=TrigramDistance('title',curTitle),).filter(distance__lte=0.7,manufacture=curManufacture).order_by('distance')[:4]
         data['noon'] = noon
         data['jumia'] = jumia
         data['souqPlus'] = souq
+        data['Categories'] =category.objects.all().order_by('sweetName')
 
-        return data
+
+
+
+
+
+        return data 
 
 
 
 def interest(request):
     if (request.method == "POST") and ("subscribe" in request.POST):
-        profile = Profile.objects.get(user = request.user)
-        sender = User.objects.get(username=profile)
-        receiver = User.objects.get(username=profile)
-        notify.send(sender, recipient=receiver, verb='Message', description=f"interest in {request.POST.get('title')}")
-        b = notifyme.objects.create(username=request.POST.get('username'),souqid=request.POST.get('id'),lastPrice=request.POST.get('lastprice'))
+        # profile = Profile.objects.get(user = request.user)
+        # sender = User.objects.get(username=profile)
+        # receiver = User.objects.get(username=profile)
+        # notify.send(sender, recipient=receiver, verb='Message', description=f"interest in {request.POST.get('title')}")
+        b = notifyme.objects.create(username=request.POST.get('username'),souqid=request.POST.get('id'),lastPrice=request.POST.get('lastprice'),expectedPrice=request.POST.get('num'))
         b.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 

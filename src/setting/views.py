@@ -1,5 +1,9 @@
+from noon.models import Noon
+from django.contrib.postgres.search import TrigramDistance
 from django.shortcuts import render
+from django.views.generic.detail import DetailView
 from souq.models import Souq
+from jumia.models import Jumia
 from products.models import category
 from .models import Info
 from django.core.mail import send_mail
@@ -10,22 +14,22 @@ from django.conf import settings
 # Create your views here.
 
 
-
-
-
-
 def Home(request):
-    da=Souq.objects.filter(manufacture="apple")[:10]
-    
+    da=Souq.objects.filter(manufacture="apple")[:20]
+    new=Souq.objects.filter(manufacture="microsoft")[:10]
+    deals=Souq.objects.filter(manufacture="xiaomi")[:10]
     Categories = category.objects.all().order_by('sweetName')
+    
 
-    return render(request,'setting/home.html',{'Categories':Categories,"featured":da})
-
-
-
+    return render(request,'setting/home.html',{'Categories':Categories,"featured":da , "new":new , "deals":deals })
 
 
 
+
+class itemDetails(DetailView):
+    model = Souq
+
+    
 def contact(request):
     info =Info.objects.last()
     Categories = category.objects.all().order_by('sweetName')

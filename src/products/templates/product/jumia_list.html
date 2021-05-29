@@ -56,7 +56,7 @@
 									{% endfor %}
 								</select>
 						</div>
-						<button type="submit" class="btn btn-primary">Search</button>
+						<button type="submit" class="btn btn-primary ">Search</button>
 					</form>
 				</div>
 				
@@ -84,8 +84,8 @@
 																</div>
 																<div class="product-item__body col-6 col-md-5">
 																	<div class="pr-lg-12">
-																		<div class="mb-2 "><a href="/product/{{product.id}}" class="font-size-12 text-gray-5">Speakers</a></div>
-																		<h5 class="mb-2 product-item__title"><a href="/product/{{product.id}}" class="text-blue font-weight-bold">{{product.title}}</a></h5>
+																		<div class="mb-2 "><a href="/product/{{product.id}}" class="font-size-12 text-gray-5">{{product.category.sweetName}}</a></div>
+																		<h5 class="mb-2 product-item__title"><a href="/product/{{product.id}}" class="text-blue font-weight-bold">{{product.title|truncatewords:15}}</a></h5>
 																		<div class="prodcut-price mb-2 d-md-none">
 																			<div class="text-gray-100  mb-12">{{product.lastprice}}</div>
 																		</div>
@@ -104,18 +104,18 @@
 																				</div>
 																			</div>
 																		</div>
-																		<ul class="font-size-12 p-0 text-gray-110 mb-4 d-none d-md-block">
-																			<li class="line-clamp-5 mb-1 list-bullet">{{product.description|safe|truncatewords:15}}</li>
-																		</ul>
-																	</div>
-																</div>
-																<div class="product-item__footer col-md-3 d-md-block">
-																	<div class="mb-3">
-																		<div class="prodcut-price mb-2">
-																			<div class="text-gray-100"><h5>{{product.lastprice|div:100}}EGP</h5></div>
+																		<div class="product-item__footer col-md-3 d-md-block">
+																			<div class="mb-3">
+																				<div class="prodcut-price mb-2">
+																					<div class="text-gray-100" style="background-color: bisque; width: 80px;text-align: center; height: 15px; border: -3px; color: rgb(255, 0, 0);"><h5>{{product.lastprice|div:100}}EGP</h5></div>
+		
+																				</div>
+																			</div>
 																		</div>
 																	</div>
+																	
 																</div>
+																
 															</div>
 														</div>
 													</li>

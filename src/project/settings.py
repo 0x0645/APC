@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'setting',
     'mathfilters',
     'accounts',
-    'notifications'
+    'notifications',
+    'django_celery_beat',
 
 ]
 
@@ -159,3 +160,4 @@ EMAIL_HOST_USER = 'dj88co@gmail.com'
 EMAIL_HOST_PASSWORD = 'sbzzzdgakymtyysw'
 EMAIL_USE_TLS = True
 EMAIL_PORT = '587'
+CELERY_BROKER_URL = 'redis://localhost:6379'

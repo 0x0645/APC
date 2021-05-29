@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Shop</title>
+<title>{{footer.name}}</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="OneTech shop project">
@@ -91,7 +91,7 @@
 					<!-- Logo -->
 					<div class="col-lg-2 col-sm-3 col-3 order-1">
 						<div class="logo_container">
-							<div class="logo"><a href="#">OneTech</a></div>
+							<div class="logo"><a href="/">{{footer.name}}</a></div>
 						</div>
 					</div>
 
@@ -117,19 +117,6 @@
 										</div>
 										<button type="submit" class="header_search_button trans_300" value="Submit"><img src="{% static 'images/search.png' %}" alt=""></button>
 									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Wishlist -->
-					<div class="col-lg-4 col-9 order-lg-3 order-2 text-lg-left text-right">
-						<div class="wishlist_cart d-flex flex-row align-items-center justify-content-end">
-							<div class="wishlist d-flex flex-row align-items-center justify-content-end">
-								<div class="wishlist_icon"><img src="images/heart.png" alt=""></div>
-								<div class="wishlist_content">
-									<div class="wishlist_text"><a href="#">Wishlist</a></div>
-									<div class="wishlist_count">115</div>
 								</div>
 							</div>
 						</div>
@@ -172,7 +159,7 @@
 
 	<!-- Newsletter -->
 
-	<div class="newsletter">
+	<!-- <div class="newsletter">
 		<div class="container">
 			<div class="row">
 				<div class="col">
@@ -185,7 +172,7 @@
 						<div class="newsletter_content clearfix">
 							<form action="#" class="newsletter_form">
 								<input type="email" class="newsletter_input" required="required" placeholder="Enter your email address">
-								<button class="newsletter_button">Subscribe</button>
+								<button class="newsletter_button">{{Email}}</button>
 							</form>
 							<div class="newsletter_unsubscribe_link"><a href="#">unsubscribe</a></div>
 						</div>
@@ -193,7 +180,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
 	<!-- Footer -->
 
@@ -209,12 +196,12 @@
 			<div class="col-lg-2 footer_col">
 				<div class="footer_column footer_contact">
 					<div class="logo_container">
-						<div class="logo"><a href="#">{{footer.name}}</a></div>
+						<div class="logo"><a href="/">{{footer.name}}</a></div>
 					</div>
-					<div class="footer_title">{{footer.description}}</div>
-					<div class="footer_phone">{{footer.phone_number}}</div>
+					<!-- <div class="footer_title">{{footer.description}}</div> -->
+					<!-- <div class="footer_phone">{{footer.phone_number}}</div> -->
 					<div class="footer_contact_text">
-						<p>{{footer.adress}}</p>
+						<!-- <p>{{footer.adress}}</p> -->
 						
 					</div>
 					<div class="footer_social">
@@ -232,7 +219,7 @@
 					<div class="footer_title">Find it Fast</div>
 					<ul class="footer_list" style="columns: 2;">
 						{% for cat in Categories %}
-						<li><a href="/product/?category={{cat}}">{{cat}}</a></li>
+							<li><a href="/product/?category={{cat}}">{{cat}}</a></li>
 						{% endfor %}
 					</ul>
 					
@@ -285,7 +272,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
-<script src="{% static 'plugins/greensock/TweenMax.min.js' %}"></script>
+<script src="{% static 'plugins/greensock/TweenMax.min.js' %}"></script>s
 <script src="{% static 'plugins/greensock/TimelineMax.min.js' %}"></script>
 <script src="{% static 'plugins/scrollmagic/ScrollMagic.min.js' %}"></script>
 <script src="{% static 'plugins/greensock/animation.gsap.min.js' %}"></script>
