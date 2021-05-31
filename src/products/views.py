@@ -21,6 +21,9 @@ from chartjs.views.lines import BaseLineChartView
 
 # UPDATE jumia SET manufacture = LOWER(manufacture);
 
+
+
+
 def population_chart(request,itemid):
     print("(========================================================================================)")
 
@@ -91,14 +94,13 @@ class SearchResultsView(FilterView):
             Q(title__icontains=query))
         return object_lists  
 
-  
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # context["brands"] = Souq.objects.values('manufacture').distinct().order_by('manufacture')
         context["Categories"]  = category.objects.all().order_by('sweetName')
         # context["cate"] = self.GET.get('category')
-        context["count"] = Souq.objects.all().count()
+        context["counts"] = self.object_list.count()
 
 
         return context
@@ -112,6 +114,8 @@ def Product(request):
     qs = Souq.objects.all()
     count = Souq.objects.all().count()
     Categories = category.objects.all().order_by('sweetName')
+    bar = category.objects.values('id')
+
     Recently_Viewed =Souq.objects.filter()[:50]
     manufacture = request.GET.get('manufacture')
     categorys = request.GET.get('category')
@@ -119,20 +123,17 @@ def Product(request):
     brands= Souq.objects.values('manufacture').distinct().order_by('manufacture')
     obj = Souq.objects.values('rate')
     # print('+++++++++++++++++++++++++++++++++++++=')
-    # print(Recently_Viewed)
+    # print(Categories[2])
     if is_valid_queryparam (manufacture) and manufacture != 'Choose...':
         qs = qs.filter(manufacture__icontains=manufacture)
         count = qs.filter(manufacture__icontains=manufacture).count()
         paginator = Paginator(qs, 50) # Show 50 contacts per page.
-
     if is_valid_queryparam (categorys) and categorys != 'Choose...':
         qs = qs.filter(category__sweetName=categorys)
         count = qs.filter(category__sweetName=categorys).count()
         paginator = Paginator(qs, 50) # Show 50 contacts per page.
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
     return render(request,'product/jumia_list.html',{
         'page_obj' : page_obj ,
         'Categories' : Categories,
@@ -140,12 +141,10 @@ def Product(request):
         'count':count,
         'Recently_Viewed':Recently_Viewed,
         'object': obj,
-        'categorys':categorys
+        'categorys':categorys,
+        'bar':bar
         
          })
-
-
-
 
 class itemDetails(DetailView):
     model = Souq
@@ -153,24 +152,30 @@ class itemDetails(DetailView):
         data = super().get_context_data(**kwargs)
         curTitle= self.object.title
         curManufacture=self.object.manufacture
-
         souq=Souq.objects.annotate(distance=TrigramDistance('title',curTitle),).filter(distance__lte=0.7,manufacture=curManufacture).order_by('distance')[:4]
         noon=Noon.objects.annotate(distance=TrigramDistance('title',curTitle),).filter(distance__lte=0.7,manufacture=curManufacture).order_by('distance')[:4]
-       
         jumia=Jumia.objects.annotate(distance=TrigramDistance('title',curTitle),).filter(distance__lte=0.7,manufacture=curManufacture).order_by('distance')[:4]
         data['noon'] = noon
         data['jumia'] = jumia
         data['souqPlus'] = souq
         data['Categories'] =category.objects.all().order_by('sweetName')
-
-
-
-
-
-
         return data 
 
 
+
+
+
+
+def load_brand(request):
+    categoryName = request.GET.get('category')
+    brandDrop = Souq.objects.filter(category=category.objects.get(sweetName=categoryName)).values("manufacture").distinct().order_by('manufacture')
+    print(brandDrop)
+    data = []
+    for item in brandDrop:
+        dataa={}
+        dataa["name"] = item["manufacture"]
+        data.append(dataa)
+    return JsonResponse(data=data, safe=False)
 
 def interest(request):
     if (request.method == "POST") and ("subscribe" in request.POST):

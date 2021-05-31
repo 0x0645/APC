@@ -18,3 +18,24 @@ for(const rating in ratings) {
   // 4
   document.querySelector(`.${rating} .stars-inner`).style.width = starPercentageRounded; 
 }
+
+
+
+let dropdown = $('#brands');
+$("#category").change(function () {
+  var url = '/product/loadbrand/'; 
+  var valuee = $(this).val(); 
+  dropdown.empty();
+  $.ajax({                      
+    url: url,                   
+    data: {
+      'category': valuee       
+    },
+    success: function (data) { 
+
+  $.each(data, function (key, entry) {
+    dropdown.append($('<option></option>').attr('value', entry.name).text(entry.name));
+  })    }
+  });
+
+});  

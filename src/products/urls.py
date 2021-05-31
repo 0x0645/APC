@@ -11,6 +11,7 @@ urlpatterns = [
     path('chartJSON', line_chart_json, name='line_chart_json'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
     path('interest/', views.interest, name='interest'),
+    path('loadbrand/', views.load_brand, name='loadbrand'),
     path('chaaar/<str:itemid>', views.population_chart, name='chaaar'),
 
 ]

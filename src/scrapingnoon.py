@@ -39,9 +39,10 @@ def getFullCategory(url=['electronics-and-mobiles/wearable-technology'],page=1):
     payload={"brand":[],"category":url,"filterKey":[],"f":{},"sort":{"by":"popularity","dir":"desc"},"limit":50,"page":page}
     try:
         response = requests.request("POST", categUrl, headers=headers, json=payload)
+        print(response.status_code)
+
     except:
         pass
-    print(response.status_code)
     if(response.status_code==429):
         time.sleep(10)
         v=getFullCategory()
@@ -58,28 +59,31 @@ def dbSave(URL,id):
     while getFullCategory(URL,page=pages):
         fulldata=getFullCategory(URL,page=pages)
         for item in fulldata:
-            sku=item['sku']
-            title=item["name"]
-            image_url=item["image_key"]
-            primary_link=item["url"]
-            if item['sale_price']== None:
-                lastprice=item['price']
-            else:
-                lastprice=item['sale_price']
-            manufacturer=item["brand"]
-            fullDescription="em Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentia"
-            active=True
-            if 'product_rating' in item:
-                rating=item['product_rating']['value']
-            else:
-                rating=0
-            categoryObj=category.objects.get(pk=id)
-            # try:
-            c=Noon.objects.create(sku=sku,title=title,manufacture=manufacturer,description=fullDescription,img=image_url,url=primary_link,active=True,lastprice=lastprice,rate=rating,category=categoryObj)
-            c.save()
-            print("done")
-            # except:
-            #     pass
+            try:
+                sku=item['sku']
+                title=item["name"]
+                offercode=item["offer_code"]
+                image_url=item["image_key"]
+                primary_link=item["url"]
+                if item['sale_price']== None:
+                    lastprice=item['price']
+                else:
+                    lastprice=item['sale_price']
+                manufacturer=item["brand"]
+                fullDescription="em Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentia"
+                if 'product_rating' in item:
+                    rating=item['product_rating']['value']
+                else:
+                    rating=0
+                categoryObj=category.objects.get(pk=id)
+                # try:
+                c=Noon.objects.create(sku=sku,title=title,manufacture=manufacturer,description=fullDescription,img=image_url,url=primary_link,active=True,lastprice=lastprice,rate=rating,category=categoryObj,offercode=offercode)
+                c.save()
+                print("done")
+
+            except:
+                pass
+
             print(i)
             i=i+1
         pages=pages+1
@@ -88,4 +92,3 @@ def dbSave(URL,id):
 for c in Categories:
     print(f"scraping{c['verbose']} now ")
     dbSave(c['url'],c['id'])
-

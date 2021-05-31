@@ -8,7 +8,6 @@
 	<div class="single_product">
 		<div class="container">
 			<div class="row">
-
 				<!-- Images -->
 				<div class="col-lg-2 order-lg-1 order-2">
 					<ul class="image_list">
@@ -17,12 +16,10 @@
 						<li data-image="images/single_3.jpg"><img src="{{souq.img}}" alt=""></li>
 					</ul>
 				</div>
-
 				<!-- Selected Image -->
 				<div class="col-lg-5 order-lg-2 order-1">
 					<div class="image_selected"><img src="{{souq.img}}" alt=""></div>
 				</div>
-
 				<!-- Description -->
 				<div class="col-lg-5 order-3">
 					<div class="product_description">
@@ -39,7 +36,6 @@
 							</div>
 							<h4 id="rating-value"></h4>
 						</div>
-
 						<div class="product_text">
 							{{souq.description|safe}}
 						</div>
@@ -51,12 +47,8 @@
 									<input type="hidden" value="{{souq.lastprice}}" name="lastprice">
 									<input type="hidden" value="{{souq.title}}" name="title">
 									<input placeholder="Expected Price" type="number" name="num" />
-
-
 									<input type="hidden" value="{{ user.username }}" name="username">
 									<div class="product_price" style="background-color: bisque; width: 80px;text-align: center; height: 15px; border: -3px; color: rgb(255, 0, 0);">{{souq.lastprice|div:100}}EGP</div>
-
-									
 									<div class="button_container">
 										{% if user.is_authenticated %}
 										<a class="nav-brand" href="#"></a>
@@ -64,14 +56,11 @@
 										{% else %}
 										<button disabled name="subscribe" type="submit" type="button" class="btn btn-success" style="border: blue; background-color: blue;">notify me</button>
 										{% endif %}
-		
 									</div>
 							</form>
-
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 		<br>
@@ -156,7 +145,7 @@
 
 				{% for product in noon %}	
 					<td class="item-img">
-							<img src={{product.img}}
+							<img src=https://z.nooncdn.com/products/tr:n-t_80/{{product.img}}.jpg
 								height="70" class=" ls-is-cached lazyloaded">
 						</a>
 					</td>
@@ -169,7 +158,6 @@
 						<p> {{product.lastprice|div:100}} <span>EGP</span></p>
 
 						<ul class="list-inline change-percent green">
-
 							<li>
 								<span>-6%</span>
 							</li>
@@ -185,7 +173,7 @@
 						<a data-gtmid="product-buy|Souq|eg|en"
 							productpath="/eg/en/off-cliff-cotton-contrast-side-stripe-drawstringelastic-waist-slimfit-sweatpants-for-men-black-m-131547785"
 							target="_blank" rel="nofollow"
-							href="{{product.url}}"
+							href="https://www.noon.com/egypt-en/{{product.url}}/{{product.sku}}/p?o={{product.offercode}}"
 							class="btn btn-primary">Buy Now</a>
 					</td>
 				</tr>
@@ -219,8 +207,5 @@
 					});
 				</script>
 </div>
-	<!-- Recently Viewed -->
-
-
 
 {% endblock body %}
