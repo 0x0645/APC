@@ -13,7 +13,7 @@
 	{% if categorys  %}
 
 		<div class="home">
-			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
+			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="https://z.nooncdn.com/products/tr:n-t_80/v1605814243/N41044064A_1.jpg"></div>
 			<div class="home_overlay"></div>
 			<div class="home_content d-flex flex-column align-items-center justify-content-center">
 				<h2 class="home_title">{{categorys}}</h2>
@@ -21,18 +21,14 @@
 		</div>
 	{% else %}
 		<div class="home">
-			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/shop_background.jpg"></div>
+			<div class="home_background parallax-window" data-parallax="scroll" data-image-src="{{object_list.img}}"></div>
 			<div class="home_overlay"></div>
 			<div class="home_content d-flex flex-column align-items-center justify-content-center">
 				<h2 class="home_title">Products</h2>
 			</div>
 		</div>
 	{% endif %}
-
-
-
 	<!-- Shop -->
-
 	<div class="shop">
 		<div class="container">
 			<div class="row">
@@ -133,7 +129,7 @@
 						</div>
 				
 						<!-- Shop Page Navigation -->
-						<div class="pagination">
+						<div class="pagination"  style="display: flex; justify-content: center; align-items: center;">
 							<span>
 								{% if page_obj.has_previous %}
 									<a href="?{% param_replace request page=1 %}">&laquo; first</a>
@@ -155,10 +151,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
 </div>
 
 

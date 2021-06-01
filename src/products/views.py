@@ -119,7 +119,7 @@ def Product(request):
     Recently_Viewed =Souq.objects.filter()[:50]
     manufacture = request.GET.get('manufacture')
     categorys = request.GET.get('category')
-    paginator = Paginator(qs, 50) # Show 50 contacts per page.
+    paginator = Paginator(qs, 10) # Show 50 contacts per page.
     brands= Souq.objects.values('manufacture').distinct().order_by('manufacture')
     obj = Souq.objects.values('rate')
     # print('+++++++++++++++++++++++++++++++++++++=')
