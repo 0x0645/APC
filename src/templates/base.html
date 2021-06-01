@@ -3,6 +3,7 @@
 {% load bootstrap4 %}
 {% load mathfilters %}
 {% load notifications_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,6 +32,8 @@
 <link rel="stylesheet" type="text/css" href="{% static 'plugins/slick-1.8.0/slick.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/main_styles.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'styles/responsive.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'lib/jquery.raty.css' %}">
+
 
 
 
@@ -38,7 +41,7 @@
 </head>
 
 <body>
-
+<!-- <div  data-score="3" id="lol"></div> -->
 <div class="super_container">
 	
 	<!-- Header -->
@@ -53,12 +56,12 @@
 								<div class="user_icon"><img src="images/user.svg" alt=""></div>
 								
 								{% if user.is_authenticated %}
-									<div>
-										<a href="/accounts/profile"><i class="fa fa-bell" style="font-size:24px"></i>
-											<span class="badge">{% live_notify_badge %}</span>	</a>
-
-									</div>
-							
+								<div>
+									<a href="/accounts/profile"><i class="fa fa-bell" style="font-size:24px"></i>
+										<span class="badge">{% live_notify_badge %}</span>	</a>
+									
+								</div>
+								
 									<div><a href="/accounts/profile">{{user.username}}</a></div>
 									<div><a href="/accounts/logout">Log Out</a></div>
 
@@ -75,6 +78,20 @@
 				</div>
 			</div>		
 		</div>
+
+
+
+		
+		<!-- Main Navigation -->
+	
+	
+	
+
+
+		<!-- Top Bar -->
+
+
+		<!-- Header Main -->
 
 		<div class="header_main">
 			<div class="container">
@@ -247,6 +264,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</div>
 </div>
 </div>
+
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/popper.js' %}"></script>
 <script src="{% static 'styles/bootstrap4/bootstrap.min.js' %}"></script>
@@ -279,8 +297,22 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 <script src="{% static 'plugins/slick-1.8.0/slick.js' %}"></script>
 <script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'lib/jquery.raty.js' %}"></script>
 
 
+<script type="text/javascript">  
+	$('.lol').raty({
+	  readOnly: true,
+	  cancel    : true,
+	  cancelOff : '/static/images/cancel-off.png',
+	  cancelOn  : '/static/images/cancel-on.png',
+	  half      : true,
+	  size      : 24,
+	  starHalf  : '/static/images/star-half.png',
+	  starOff   : '/static/images/star-off.png',
+	  starOn    : '/static/images/star-on.png',
+	});
+	</script>
 
 </body>
 

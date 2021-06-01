@@ -20,7 +20,6 @@ for(const rating in ratings) {
 }
 
 
-
 let dropdown = $('#brands');
 $("#category").change(function () {
   var url = '/product/loadbrand/'; 
@@ -38,4 +37,6 @@ $("#category").change(function () {
   })    }
   });
 
-});  
+});
+
+

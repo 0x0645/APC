@@ -93,14 +93,8 @@
 																		<div class="mb-3 d-none d-md-block">
 																			<div class="container">
 																				<div class="rating-wrap">
-																					<div class="center">
-																						<span id='rating_Val'>{{product.rate|floatformat:1}}</span>
-																						<div class='rating{{forloop.counter0}}' style="display:inline;">
-																							<div class="stars-outer">
-																								<div class="stars-inner"></div>
-																							  </div>
-																						</div>
-																					</div>
+																					<div  data-score="{{product.rate|floatformat:1}}" class="lol"></div>
+
 																					<h4 id="rating-value"></h4>
 																				</div>
 																			</div>

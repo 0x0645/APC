@@ -1,65 +1,78 @@
-{% extends 'base.html' %}
- {% load my_tags %} 
- {% load static %} 
- {% load bootstrap4 %} 
- {% load mathfilters %} 
- {% block body %}
+{% extends 'base.html' %} {% load my_tags %} {% load static %} {% load bootstrap4 %} {% load mathfilters %} {% block body %}
+
+
+<!-- Banner -->
+
+
 <!-- Deals of the week -->
+
 <div class="deals_featured">
     <div class="container">
         <div class="row">
             <div class="col d-flex flex-lg-row flex-column align-items-center justify-content-start">
+
                 <!-- Deals -->
+
                 <div class="deals">
                     <div class="deals_title">Deals of the Week</div>
                     <div class="deals_slider_container">
+
                         <!-- Deals Slider -->
                         <div class="owl-carousel owl-theme deals_slider">
+
                             <!-- Deals Item -->
                             {% for product in deals %}
-                                <div class="owl-item deals_item">
-                                    <div class="deals_image"><img style="width: 200px; height: auto;" src="{{product.img}}" alt=""></div>
-                                    <div class="deals_content">
-                                        <div class="deals_info_line d-flex flex-row justify-content-start">
-                                            <div class="deals_item_category"><a href="#">{{product.category.sweetName}}</a></div>
+
+                            <div class="owl-item deals_item">
+                                <div class="deals_image"><img style="width: 200px; height: auto;" src="{{product.img}}" alt=""></div>
+                                <div class="deals_content">
+                                    <div class="deals_info_line d-flex flex-row justify-content-start">
+                                        <div class="deals_item_category"><a href="#">{{product.category.sweetName}}</a></div>
+                                    </div>
+                                    <div class="deals_info_line d-flex flex-row justify-content-start">
+                                        <div class="deals_item_name">{{product.title}}</div>
+                                    </div>
+                                    <div class="deals_item_price ml-auto">{{product.lastprice|div:100}}EGP</div>
+                                        <div class="center">
+                                                <span id='rating_Val'>{{product.rate|floatformat:1}}</span>
+                                                <div class='rating{{forloop.counter0}}' style="display:inline;">
+                                                    <div class="stars-outer">
+                                                        <div class="stars-inner"></div>
+                                                    </div>
+                                                </div>
+                                    </div>
+                                    <div class="deals_timer d-flex flex-row align-items-center justify-content-start">
+                                        <div class="deals_timer_title_container">
+                                            <div class="deals_timer_title">Hurry Up</div>
+                                            <div class="deals_timer_subtitle">Offer ends in:</div>
                                         </div>
-                                        <div class="deals_info_line d-flex flex-row justify-content-start">
-                                            <div class="deals_item_name"><a href="/product/{{product.id}}">{{product.title}}</a></div>
-                                        </div>
-                                        <div class="deals_item_price ml-auto">{{product.lastprice|div:100}}EGP</div>
-                                            <div class="center">
-                                                    <span id='rating_Val'>{{product.rate|floatformat:1}}</span>
-                                                    <div class='rating{{forloop.counter0}}' style="display:inline;">
-                                                        <div class="stars-outer">
-                                                            <div class="stars-inner"></div>
-                                                        </div>
-                                                    </div>
-                                        </div>
-                                        <div class="deals_timer d-flex flex-row align-items-center justify-content-start">
-                                            <div class="deals_timer_title_container">
-                                                <div class="deals_timer_title">Hurry Up</div>
-                                                <div class="deals_timer_subtitle">Offer ends in:</div>
-                                            </div>
-                                            <div class="deals_timer_content ml-auto">
-                                                <div class="deals_timer_box clearfix" data-target-time="">
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer1_hr" class="deals_timer_hr"></div>
-                                                        <span>hours</span>
-                                                    </div>
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer1_min" class="deals_timer_min"></div>
-                                                        <span>mins</span>
-                                                    </div>
-                                                    <div class="deals_timer_unit">
-                                                        <div id="deals_timer1_sec" class="deals_timer_sec"></div>
-                                                        <span>secs</span>
-                                                    </div>
+                                        <div class="deals_timer_content ml-auto">
+                                            <div class="deals_timer_box clearfix" data-target-time="">
+                                                <div class="deals_timer_unit">
+                                                    <div id="deals_timer1_hr" class="deals_timer_hr"></div>
+                                                    <span>hours</span>
+                                                </div>
+                                                <div class="deals_timer_unit">
+                                                    <div id="deals_timer1_min" class="deals_timer_min"></div>
+                                                    <span>mins</span>
+                                                </div>
+                                                <div class="deals_timer_unit">
+                                                    <div id="deals_timer1_sec" class="deals_timer_sec"></div>
+                                                    <span>secs</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
                             {% endfor %}
+
+
+
+
+
+
                         </div>
 
                     </div>
@@ -100,11 +113,8 @@
                                             <div class="product_extras mb-4">
                                                 <div class="center">
                                                 <span id='rating_Val'>{{product.rate|floatformat:1}}</span>
-                                                <div class='rating{{forloop.counter0}}' style="display:inline;">
-                                                    <div class="stars-outer">
-                                                        <div class="stars-inner"></div>
-                                                    </div>
-                                                </div>
+                                                <div  data-score="{{product.rate|floatformat:1}}" style="display: flex;justify-content: center;" class="lol"></div>
+
                                             </div>
                                             </div>
                                         </div>
@@ -119,6 +129,10 @@
                             </div>
                             <div class="featured_slider_dots_cover"></div>
                         </div>
+
+                        <!-- Product Panel -->
+
+
                     </div>
                 </div>
 
@@ -126,6 +140,7 @@
         </div>
     </div>
 </div>
+
 <!-- Popular Categories -->
 
 <div class="popular_categories">
@@ -195,6 +210,12 @@
     </div>
 </div>
 
+<!-- Banner -->
+
+
+<!-- Hot New Arrivals -->
+
+
 <!-- Best Sellers -->
 
 <div class="best_sellers">
@@ -209,45 +230,58 @@
                         </ul>
                         <div class="tabs_line"><span></span></div>
                     </div>
+
                     <div class="bestsellers_panel panel active">
+
                         <!-- Best Sellers Slider -->
+
                         <div class="bestsellers_slider slider">
                             {% for product in new %}	
-                                <div class="bestsellers_item discount">
-                                    <div class="bestsellers_item_container d-flex flex-row align-items-center justify-content-start">
-                                        <div class="bestsellers_image"><img src="{{product.img}}" alt=""></div>
-                                        <div class="bestsellers_content">
-                                            <div class="bestsellers_category"><a href="#">{{product.category.sweetName}}</a></div>
-                                            <div class="bestsellers_name"><a href="/product/{{product.id}}">{{product.title}}</a></div>
-                                            <div class="container">
-                                                <div class="rating-wrap">
-                                                    <div class="center">
-                                                        <span id='rating_Val'>{{product.rate|floatformat:1}}</span>
-                                                        <div class='rating{{forloop.counter0}}' style="display:inline;">
-                                                            <div class="stars-outer">
-                                                                <div class="stars-inner"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <h4 id="rating-value"></h4>
+
+                            <div class="bestsellers_item discount">
+                                <div class="bestsellers_item_container d-flex flex-row align-items-center justify-content-start">
+                                    <div class="bestsellers_image"><img src="{{product.img}}" alt=""></div>
+                                    <div class="bestsellers_content">
+                                        <div class="bestsellers_category"><a href="#">{{product.category.sweetName}}</a></div>
+                                        <div class="bestsellers_name"><a href="/product/{{product.id}}">{{product.title}}</a></div>
+                                        <div class="container">
+                                            <div class="rating-wrap">
+                                                <div class="center">
+                                                    <span id='rating_Val'>{{product.rate|floatformat:1}}</span>
+                                                    <div  data-score="{{product.rate|floatformat:1}}" style="display: flex;justify-content: center;" class="lol"></div>
+
                                                 </div>
+                                                <h4 id="rating-value"></h4>
                                             </div>
-                                            <div class="bestsellers_price discount">{{product.lastprice|div:100}}EGP</span></div>
                                         </div>
+                                        <div class="bestsellers_price discount">{{product.lastprice|div:100}}EGP</span></div>
                                     </div>
-                                    <div class="bestsellers_fav active"><i class="fas fa-heart"></i></div>
-                                    <ul class="bestsellers_marks">
-                                        <li class="bestsellers_mark bestsellers_discount">-25%</li>
-                                        <li class="bestsellers_mark bestsellers_new">new</li>
-                                    </ul>
                                 </div>
+                                <div class="bestsellers_fav active"><i class="fas fa-heart"></i></div>
+                                <ul class="bestsellers_marks">
+                                    <li class="bestsellers_mark bestsellers_discount">-25%</li>
+                                    <li class="bestsellers_mark bestsellers_new">new</li>
+                                </ul>
+
+                            </div>
                             {% endfor %}	
+
+                            <!-- Best Sellers Item -->
+
+
+ 
+
                         </div>
                     </div>
+
                     <div class="bestsellers_panel panel">
+
                         <!-- Best Sellers Slider -->
+
                         <div class="bestsellers_slider slider">
+
                             <!-- Best Sellers Item -->
+
                         </div>
                     </div>
                 </div>
@@ -256,4 +290,20 @@
         </div>
     </div>
 </div>
+
+<!-- Adverts -->
+
+
+<!-- Trends -->
+
+
+<!-- Reviews -->
+
+<!-- Recently Viewed -->
+
+<!-- Brands -->
+
+
+
+
 {% endblock body %}

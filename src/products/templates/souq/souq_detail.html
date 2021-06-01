@@ -26,14 +26,8 @@
 						<div class="product_category">{{souq.category.sweetName}}</div>
 						<div class="product_name">{{souq.title}}</div>
 						<div class="rating-wrap">
-							<div class="center">
-								<span id='rating_Val'>{{souq.rate|floatformat:1}}</span>
-								<div class='rating{{forloop.counter0}}' style="display:inline;">
-									<div class="stars-outer">
-										<div class="stars-inner"></div>
-									  </div>
-								</div>
-							</div>
+							<div  data-score="{{souq.rate|floatformat:1}}" class="lol"></div>
+
 							<h4 id="rating-value"></h4>
 						</div>
 						<div class="product_text">
