@@ -1,13 +1,13 @@
 
 from datetime import timezone
-from celery import Celery
+from celery import Celery, shared_task
 from accounts.models import Profile
 from project.celery import app
 from products.models import notifyme, priceHistory
 from souq.models import Souq
 from notifications.signals import notify
 from django.contrib.auth.models import User
-
+from django.utils import timezone
 from django.core.mail import send_mail
 
 import requests
@@ -42,7 +42,7 @@ headers = {
 'referer': 'https://egypt.souq.com/eg-ar/keyboard/l/',
 'Cookie': 'COCODE_EG=eg; PHPSESSID=ec0ebf08466d4eb75954d3115fc0421b; PLATEFORMC=eg; PLATEFORML=en; c_Ident=16063459803197; BUYER_CITY_SELECTED=27'
 }
-@app.task(name="priceChanged")
+@shared_task
 def priceChanged():
     url = "https://egypt.souq.com/eg-en/search_results.php?action=quickView&id="
     c=Souq.objects.all()
@@ -63,7 +63,7 @@ def priceChanged():
                 soquD.save()
         except AttributeError:
             print(None) #TO do do your handling
-@app.task(name="Notification task ")
+@shared_task
 def notificationsTasks():
     c=notifyme.objects.all()
     for i in c:
@@ -77,5 +77,7 @@ def notificationsTasks():
                 Souq.objects.get(pk=i.souqid).title
                 notify.send(sender, recipient=receiver, verb='Message', description=f"the product with title { Souq.objects.get(pk=i.souqid).title} has changed and the current price is { Souq.objects.get(pk=i.souqid).lastprice}")    
                 send_mail("price change ", f"the product with title { Souq.objects.get(pk=i.souqid).title} has changed and the current price is { Souq.objects.get(pk=i.souqid).lastprice}", "dj88co@gmail.com", [User.objects.get(username=i.username).email], fail_silently = False)
+                print('done2')
         else:
                 print("none")
+    return 'done'

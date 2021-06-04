@@ -42,7 +42,7 @@
 									<input type="hidden" value="{{souq.title}}" name="title">
 									<input placeholder="Expected Price" type="number" name="num" />
 									<input type="hidden" value="{{ user.username }}" name="username">
-									<div class="product_price" style="background-color: bisque; width: 80px;text-align: center; height: 15px; border: -3px; color: rgb(255, 0, 0);">{{souq.lastprice|div:100}}EGP</div>
+									<div class="product_price" style="background-color: bisque; width: 80px;text-align: center; height: 15px; border: -3px; color: rgb(255, 0, 0);">{{souq.lastprice}}EGP</div>
 									<div class="button_container">
 										{% if user.is_authenticated %}
 										<a class="nav-brand" href="#"></a>
@@ -75,7 +75,7 @@
 							</h3>
 						</td>
 						<td class="item-price">
-							<p> {{product.lastprice|div:100}} <span>EGP</span></p>
+							<p> {{product.lastprice}} <span>EGP</span></p>
 
 							<ul class="list-inline change-percent green">
 
@@ -112,7 +112,7 @@
 						</h3>
 					</td>
 					<td class="item-price">
-						<p> {{product.lastprice|div:100}} <span>EGP</span></p>
+						<p> {{product.lastprice}} <span>EGP</span></p>
 
 						<ul class="list-inline change-percent green">
 
@@ -149,7 +149,7 @@
 						</h3>
 					</td>
 					<td class="item-price">
-						<p> {{product.lastprice|div:100}} <span>EGP</span></p>
+						<p> {{product.lastprice}} <span>EGP</span></p>
 
 						<ul class="list-inline change-percent green">
 							<li>
